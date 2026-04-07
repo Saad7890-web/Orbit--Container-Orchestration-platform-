@@ -1,0 +1,11 @@
+orbit
+orbitd
+*.exe
+*.log
+bin/
+dist/
+tmp/
+.DS_Store
+.idea/
+.vscode/
+coverage.out
