@@ -33,7 +33,7 @@ func (e Execution) Validate() error {
 	if !e.Status.Valid() {
 		return ErrInvalidEnum("execution status", string(e.Status))
 	}
-	if !e.EndedAt.IsZero() && e.EndedAt.Before(e.StartedAt) {
+	if e.EndedAt != nil && e.EndedAt.Before(e.StartedAt) {
 		return errors.New("endedAt cannot be before startedAt")
 	}
 	if e.ExitCode != nil && (*e.ExitCode < 0 || *e.ExitCode > 255) {

@@ -1,0 +1,34 @@
+apiVersion: orbit.dev/v1alpha1
+kind: Stack
+
+metadata:
+    name: demo-stack
+    description: Sample Orbit stack
+
+spec:
+    services:
+        - name: web
+          image: nginx:1.27
+          restart: always
+          ports:
+              - hostPort: 8080
+                containerPort: 80
+                protocol: tcp
+
+    jobs:
+        - name: backup
+          image: alpine:3.20
+          schedule:
+              cron: "0 2 * * *"
+          timeout: 30m
+
+    triggers:
+        - name: deploy-hook
+          type: http
+          match:
+              http:
+                  path: /deploy
+                  method: POST
+          target:
+              kind: job
+              name: backup
