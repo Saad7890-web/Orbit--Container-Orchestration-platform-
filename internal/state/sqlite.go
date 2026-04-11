@@ -114,3 +114,11 @@ func migrationFiles() ([]migrationFile, error) {
 
 	return files, nil
 }
+
+func migrationFileContents(name string) ([]byte, error) {
+	b, err := migrationFS.ReadFile("migrations/" + name)
+	if err != nil {
+		return nil, fmt.Errorf("read migration %q: %w", name, err)
+	}
+	return b, nil
+}
