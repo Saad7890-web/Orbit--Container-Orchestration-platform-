@@ -108,19 +108,19 @@ func (c *Client) StartContainer(ctx context.Context, id string) error {
 }
 
 func (c *Client) StopContainer(ctx context.Context, id string, timeout time.Duration) error {
-	d := int(timeout.Seconds())
+	t := int(timeout.Seconds())
 	if timeout <= 0 {
-		d = 10
+		t = 10
 	}
-	return c.cli.ContainerStop(ctx, id, container.StopOptions{Timeout: &d})
+	return c.cli.ContainerStop(ctx, id, container.StopOptions{Timeout: &t})
 }
 
 func (c *Client) RestartContainer(ctx context.Context, id string, timeout time.Duration) error {
-	d := int(timeout.Seconds())
+	t := int(timeout.Seconds())
 	if timeout <= 0 {
-		d = 10
+		t = 10
 	}
-	return c.cli.ContainerRestart(ctx, id, container.StopOptions{Timeout: &d})
+	return c.cli.ContainerRestart(ctx, id, container.StopOptions{Timeout: &t})
 }
 
 func (c *Client) RemoveContainer(ctx context.Context, id string, force bool, removeVolumes bool) error {
