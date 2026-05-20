@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/Saad7890-web/orbit/internal/docker"
 	"github.com/Saad7890-web/orbit/internal/models"
@@ -10,14 +11,42 @@ import (
 
 type Repository interface {
 	SaveStack(ctx context.Context, stack models.Stack, configHash string) error
-	UpsertService(ctx context.Context, stackName string, svc models.Service, configHash string, status models.LifecycleStatus, health models.HealthStatus, lastError string) error
-	UpsertJob(ctx context.Context, stackName string, job models.Job, configHash string, lastStatus models.ExecutionStatus, lastError string, lastRunAt *funcTime) error
-	UpsertTrigger(ctx context.Context, stackName string, trigger models.Trigger, configHash string, lastStatus models.ExecutionStatus, lastError string, lastFiredAt *funcTime) error
+
+	UpsertService(
+		ctx context.Context,
+		stackName string,
+		svc models.Service,
+		configHash string,
+		status models.LifecycleStatus,
+		health models.HealthStatus,
+		lastError string,
+	) error
+
+	UpsertJob(
+		ctx context.Context,
+		stackName string,
+		job models.Job,
+		configHash string,
+		lastStatus models.ExecutionStatus,
+		lastError string,
+		lastRunAt *time.Time,
+	) error
+
+	UpsertTrigger(
+		ctx context.Context,
+		stackName string,
+		trigger models.Trigger,
+		configHash string,
+		lastStatus models.ExecutionStatus,
+		lastError string,
+		lastFiredAt *time.Time,
+	) error
+
 	SetMetadata(ctx context.Context, key, value string) error
 }
 
 type funcTime = interface {
-	UTC() string
+	time.Time
 }
 
 type Controller struct {
